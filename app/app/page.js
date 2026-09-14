@@ -13,6 +13,14 @@ function normalizarTelefone(raw) {
   return digits;
 }
 
+function primeiroNome(nomeCompleto) {
+  return String(nomeCompleto || "").trim().split(/\s+/)[0] || "";
+}
+
+function montarMensagem(template, contato) {
+  return String(template || "").replaceAll("{nome}", primeiroNome(contato.nome));
+}
+
 function formatarTelefoneExibicao(digits) {
   const semDDI = digits.startsWith("55") ? digits.slice(2) : digits;
   const ddd = semDDI.slice(0, 2);
@@ -262,11 +270,11 @@ export default function AppPage() {
   }
 
   async function enviarMensagem(contato) {
-    const msg = mensagem.trim();
-    if (!msg) {
+    if (!mensagem.trim()) {
       mostrarToast("Escreva a mensagem padrão antes de enviar.", "erro");
       return;
     }
+    const msg = montarMensagem(mensagem, contato).trim();
     const url = `https://wa.me/${contato.telefone}?text=${encodeURIComponent(msg)}`;
     window.open(url, "_blank", "noopener");
 
@@ -465,6 +473,9 @@ export default function AppPage() {
                 onChange={(e) => handleMensagemChange(e.target.value)}
                 placeholder="Digite a mensagem que será enviada a todos os contatos da fila..."
               />
+            </div>
+            <div className="hint">
+              Use <strong>{"{nome}"}</strong> na mensagem para inserir o primeiro nome de cada contato automaticamente.
             </div>
             <div className="charcount">{mensagem.length} caracteres</div>
           </div>
