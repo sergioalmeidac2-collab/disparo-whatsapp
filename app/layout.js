@@ -1,0 +1,21 @@
+import "./globals.css";
+
+export const metadata = {
+  title: "Disparo em Lote",
+  description:
+    "Painel para gestão de contatos e disparo manual de mensagens via WhatsApp (wa.me).",
+};
+
+export default function RootLayout({ children }) {
+  return (
+    <html lang="pt-BR">
+      <head>
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Public+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        />
+      </head>
+      <body>{children}</body>
+    </html>
+  );
+}
